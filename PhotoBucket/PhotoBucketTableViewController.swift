@@ -10,6 +10,8 @@ import UIKit
 
 class PhotoBucketTableViewController: UITableViewController {
     
+    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     let PhotoBucketCellIdentifier = "PhotoBucketCell"
     let NoPhotoBucketCellIdentifier = "NoPhotoBucketCell"
     let ShowDetailSegueIdentifier = "ShowDetailSegue"
@@ -31,6 +33,7 @@ class PhotoBucketTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        updatePhotoBucketArray()
         tableView.reloadData()
     }
     
@@ -55,18 +58,19 @@ class PhotoBucketTableViewController: UITableViewController {
                                                 (action) in
                                                 let captionTextField = alertController.textFields![0]
                                                 let imageURLTextField = alertController.textFields![1]
-                                                print("caption: \(captionTextField.text!)")
-                                                print("URL: \(imageURLTextField.text!)")
-                                                let photo = Photo(caption: captionTextField.text!,
-                                                                  image: imageURLTextField.text!)
-                                                self.photoBucket.insert(photo, at: 0)
+
+                                                let newPhoto = Photo(context: self.context)
                                                 
-                                                if self.photoBucket.count == 1 {
-                                                    self.tableView.reloadData()
+                                                if imageURLTextField.text! == ""{
+                                                    newPhoto.imageURL = self.getRandomImageUrl()
                                                 } else {
-                                                    self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)],
-                                                                              with: UITableViewRowAnimation.top)
+                                                    newPhoto.imageURL = imageURLTextField.text!
                                                 }
+                                                newPhoto.caption = captionTextField.text!
+                                                newPhoto.timestamp = Date()
+                                                self.saveContext()
+                                                self.updatePhotoBucketArray()
+                                                self.tableView.reloadData()
         }
         
         alertController.addAction(cancelAction)
@@ -78,6 +82,30 @@ class PhotoBucketTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func getRandomImageUrl() -> String {
+        let testImages = ["https://upload.wikimedia.org/wikipedia/commons/0/04/Hurricane_Isabel_from_ISS.jpg",
+                          "https://upload.wikimedia.org/wikipedia/commons/0/00/Flood102405.JPG",
+                          "https://upload.wikimedia.org/wikipedia/commons/6/6b/Mount_Carmel_forest_fire14.jpg"]
+        let randomIndex = Int(arc4random_uniform(UInt32(testImages.count)))
+        return testImages[randomIndex];
+    }
+    
+    func saveContext() {
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    }
+    
+    func updatePhotoBucketArray() {
+        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+        
+        do {
+            photoBucket = try context.fetch(request)
+        } catch {
+            fatalError("Unresolved Core Data error \(error)")
+        }
+        
     }
 
     // MARK: - Table view data source

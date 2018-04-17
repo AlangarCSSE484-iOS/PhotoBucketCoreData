@@ -15,7 +15,6 @@
 		0A583F7E20856DEF00AAF495 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A583F7D20856DEF00AAF495 /* Assets.xcassets */; };
 		0A583F8120856DEF00AAF495 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A583F7F20856DEF00AAF495 /* LaunchScreen.storyboard */; };
 		0A583F8920856FDF00AAF495 /* PhotoBucketTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F8820856FDF00AAF495 /* PhotoBucketTableViewController.swift */; };
-		0A583F8B2085795900AAF495 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F8A2085795900AAF495 /* Photo.swift */; };
 		0A583F8D2085A62F00AAF495 /* PhotoBucketDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F8C2085A62F00AAF495 /* PhotoBucketDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +29,6 @@
 		0A583F8020856DEF00AAF495 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A583F8220856DEF00AAF495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A583F8820856FDF00AAF495 /* PhotoBucketTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBucketTableViewController.swift; sourceTree = "<group>"; };
-		0A583F8A2085795900AAF495 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		0A583F8C2085A62F00AAF495 /* PhotoBucketDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBucketDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -73,7 +71,6 @@
 				0A583F8220856DEF00AAF495 /* Info.plist */,
 				0A583F7320856DEF00AAF495 /* PhotoBucket.xcdatamodeld */,
 				0A583F8820856FDF00AAF495 /* PhotoBucketTableViewController.swift */,
-				0A583F8A2085795900AAF495 /* Photo.swift */,
 				0A583F8C2085A62F00AAF495 /* PhotoBucketDetailViewController.swift */,
 			);
 			path = PhotoBucket;
@@ -151,7 +148,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A583F8B2085795900AAF495 /* Photo.swift in Sources */,
 				0A583F7520856DEF00AAF495 /* PhotoBucket.xcdatamodeld in Sources */,
 				0A583F7220856DEF00AAF495 /* AppDelegate.swift in Sources */,
 				0A583F8D2085A62F00AAF495 /* PhotoBucketDetailViewController.swift in Sources */,
