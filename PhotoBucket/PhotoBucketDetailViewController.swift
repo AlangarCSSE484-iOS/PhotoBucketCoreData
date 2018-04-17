@@ -45,7 +45,8 @@ class PhotoBucketDetailViewController: UIViewController {
                                                 (action) in
                                                 let captionTextField = alertController.textFields![0]
                                                 self.photoToAdd?.caption = captionTextField.text!
-                                                self.updateView()
+                                                //self.updateView()
+                                                self.saveContext()
                                                 self.captionLabel.text = self.photoToAdd?.caption
                                                 
         }
@@ -83,8 +84,11 @@ class PhotoBucketDetailViewController: UIViewController {
         }
     }
     
-    
+    func saveContext() {
+        (UIApplication.shared.delete as! AppDelegate).saveContext()
+    }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

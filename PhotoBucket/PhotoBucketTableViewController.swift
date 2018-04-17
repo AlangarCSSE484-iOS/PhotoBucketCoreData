@@ -96,6 +96,7 @@ class PhotoBucketTableViewController: UITableViewController {
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
     
+    //error here, but idk why :(
     func updatePhotoBucketArray() {
         let request: NSFetchRequest<Photo> = Photo.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
@@ -151,7 +152,10 @@ class PhotoBucketTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            photoBucket.remove(at: indexPath.row)
+            context.delete(photoBucket[indexPath.row])
+            self.saveContext()
+            updatePhotoBucketArray()
+            
             if photoBucket.count == 0{
                 tableView.reloadData()
                 self.setEditing(false, animated: true)
@@ -162,22 +166,6 @@ class PhotoBucketTableViewController: UITableViewController {
 
         }
     }
-    
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     
     // MARK: - Navigation
