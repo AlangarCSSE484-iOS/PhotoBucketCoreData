@@ -27,8 +27,11 @@ class PhotoBucketTableViewController: UITableViewController {
                                                                  target: self,
                                                                  action: #selector(showAddDialog))
   
-        
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     @objc func showAddDialog() {
