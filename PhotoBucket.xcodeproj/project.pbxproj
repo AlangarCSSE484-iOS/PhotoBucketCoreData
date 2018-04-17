@@ -14,6 +14,8 @@
 		0A583F7C20856DEF00AAF495 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A583F7A20856DEF00AAF495 /* Main.storyboard */; };
 		0A583F7E20856DEF00AAF495 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A583F7D20856DEF00AAF495 /* Assets.xcassets */; };
 		0A583F8120856DEF00AAF495 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A583F7F20856DEF00AAF495 /* LaunchScreen.storyboard */; };
+		0A583F8920856FDF00AAF495 /* PhotoBucketTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F8820856FDF00AAF495 /* PhotoBucketTableViewController.swift */; };
+		0A583F8B2085795900AAF495 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F8A2085795900AAF495 /* Photo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		0A583F7D20856DEF00AAF495 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A583F8020856DEF00AAF495 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A583F8220856DEF00AAF495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A583F8820856FDF00AAF495 /* PhotoBucketTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBucketTableViewController.swift; sourceTree = "<group>"; };
+		0A583F8A2085795900AAF495 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				0A583F7F20856DEF00AAF495 /* LaunchScreen.storyboard */,
 				0A583F8220856DEF00AAF495 /* Info.plist */,
 				0A583F7320856DEF00AAF495 /* PhotoBucket.xcdatamodeld */,
+				0A583F8820856FDF00AAF495 /* PhotoBucketTableViewController.swift */,
+				0A583F8A2085795900AAF495 /* Photo.swift */,
 			);
 			path = PhotoBucket;
 			sourceTree = "<group>";
@@ -142,9 +148,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A583F8B2085795900AAF495 /* Photo.swift in Sources */,
 				0A583F7520856DEF00AAF495 /* PhotoBucket.xcdatamodeld in Sources */,
 				0A583F7220856DEF00AAF495 /* AppDelegate.swift in Sources */,
 				0A583F7720856DEF00AAF495 /* MasterViewController.swift in Sources */,
+				0A583F8920856FDF00AAF495 /* PhotoBucketTableViewController.swift in Sources */,
 				0A583F7920856DEF00AAF495 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
