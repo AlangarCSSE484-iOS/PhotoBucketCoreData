@@ -11,6 +11,8 @@ import UIKit
 class PhotoBucketTableViewController: UITableViewController {
     
     let PhotoBucketCellIdentifier = "PhotoBucketCell"
+    let NoPhotoBucketCellIdentifier = "NoPhotoBucketCell"
+    
     
     var photoBucket = [Photo]()
     
@@ -20,14 +22,12 @@ class PhotoBucketTableViewController: UITableViewController {
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
                                                                  action: #selector(showAddDialog))
-        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(UIBarButtonSystemItem: .add,)
+  
         
-        photoBucket.append(Photo(caption: "Test", image: "test URL"))
         
     }
     
@@ -80,17 +80,20 @@ class PhotoBucketTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photoBucket.count
+        return max(photoBucket.count, 1)
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PhotoBucketCellIdentifier, for: indexPath)
-
-        // Configure the cell...
-        let photo = photoBucket[indexPath.row]
-        cell.textLabel?.text = photo.caption
-        
+        var cell: UITableViewCell
+        if photoBucket.count == 0{
+            cell = tableView.dequeueReusableCell(withIdentifier: NoPhotoBucketCellIdentifier, for: indexPath)
+        }
+        else {
+            cell = tableView.dequeueReusableCell(withIdentifier: PhotoBucketCellIdentifier, for: indexPath)
+            let photo = photoBucket[indexPath.row]
+            cell.textLabel?.text = photo.caption
+        }
         return cell
     }
     
@@ -98,25 +101,37 @@ class PhotoBucketTableViewController: UITableViewController {
         print("You just pressed \(photoBucket[indexPath.row])")
     }
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+        return photoBucket.count > 0
     }
-    */
-
-    /*
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        if photoBucket.count == 0{
+            super.setEditing(false, animated: false)
+        }
+        else {
+            super.setEditing(true, animated: animated)
+        }
+    }
+    
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            photoBucket.remove(at: indexPath.row)
+            if photoBucket.count == 0{
+                tableView.reloadData()
+                self.setEditing(false, animated: true)
+            } else {
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            
+
+        }
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
