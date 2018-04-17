@@ -10,6 +10,12 @@ import UIKit
 
 class PhotoBucketDetailViewController: UIViewController {
 
+    
+    @IBOutlet weak var captionLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

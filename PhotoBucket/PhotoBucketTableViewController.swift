@@ -12,7 +12,7 @@ class PhotoBucketTableViewController: UITableViewController {
     
     let PhotoBucketCellIdentifier = "PhotoBucketCell"
     let NoPhotoBucketCellIdentifier = "NoPhotoBucketCell"
-    
+    let ShowDetailSegueIdentifier = "ShowDetailSegue"
     
     var photoBucket = [Photo]()
     
