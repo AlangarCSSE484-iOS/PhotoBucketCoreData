@@ -7,12 +7,14 @@
 //
 
 import UIKit
-import CoreData
+import Firebase
 
 
 class PhotoBucketTableViewController: UITableViewController {
     
-    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
+    var photoRef: CollectionReference!
+    var photoListener: ListenerRegistration!
     
     let PhotoBucketCellIdentifier = "PhotoBucketCell"
     let NoPhotoBucketCellIdentifier = "NoPhotoBucketCell"
@@ -23,20 +25,67 @@ class PhotoBucketTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
         self.navigationItem.leftBarButtonItem = self.editButtonItem
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
                                                                  action: #selector(showAddDialog))
+        photoRef = Firestore.firestore().collection("photos")
   
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updatePhotoBucketArray()
-        tableView.reloadData()
+        photoListener = photoRef.order(by: "timestamp", descending: true).addSnapshotListener({ (querySnapshot, error) in
+            guard let snapshot = querySnapshot else {
+                print("error fetching photos. error: \(error!.localizedDescription)")
+                return
+            }
+            snapshot.documentChanges.forEach{(docChange) in
+                if (docChange.type == .added) {
+                    self.photoAdded(docChange.document)
+                } else if (docChange.type == .modified) {
+                    self.photoUpdated(docChange.document)
+                } else if (docChange.type == .removed) {
+                    self.photoRemoved(docChange.document)
+                }
+            }
+            
+            self.photoBucket.sort(by: { (p1, p2) -> Bool in
+                return p1.timestamp > p2.timestamp
+            })
+            self.tableView.reloadData()
+        })
+    }
+    
+    func photoAdded(_ document: DocumentSnapshot){
+        let newPhoto = Photo(documentSnapshot: document)
+        photoBucket.append(newPhoto)
+    }
+    
+    func photoUpdated(_ document: DocumentSnapshot){
+        let modifiedPhoto = Photo(documentSnapshot: document)
+        for p in photoBucket {
+            if (p.id == modifiedPhoto.id){
+                p.imageURL = modifiedPhoto.imageURL
+                p.caption = modifiedPhoto.caption
+                break
+            }
+        }
+    }
+    
+    func photoRemoved(_ document: DocumentSnapshot){
+        for i in 0..<photoBucket.count {
+            if photoBucket[i].id == document.documentID{
+                photoBucket.remove(at: i)
+                break
+            }
+        }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        photoListener.remove()
     }
     
     @objc func showAddDialog() {
@@ -55,24 +104,44 @@ class PhotoBucketTableViewController: UITableViewController {
                                          style: .cancel,
                                          handler: nil)
         
+//        let createPhotoAction = UIAlertAction(title: "Add Photo",
+//                                              style: .default) {
+//                                                (action) in
+//                                                let captionTextField = alertController.textFields![0]
+//                                                let imageURLTextField = alertController.textFields![1]
+//
+//                                                let newPhoto = Photo(context: self.context)
+//
+//                                                if imageURLTextField.text! == ""{
+//                                                    newPhoto.imageURL = self.getRandomImageUrl()
+//                                                } else {
+//                                                    newPhoto.imageURL = imageURLTextField.text!
+//                                                }
+        
+        
+//                                                newPhoto.caption = captionTextField.text!
+//                                                newPhoto.timestamp = Date()
+//                                                self.saveContext()
+//                                                self.updatePhotoBucketArray()
+//                                                self.tableView.reloadData()
+//        }
+        
         let createPhotoAction = UIAlertAction(title: "Add Photo",
                                               style: .default) {
                                                 (action) in
                                                 let captionTextField = alertController.textFields![0]
                                                 let imageURLTextField = alertController.textFields![1]
-
-                                                let newPhoto = Photo(context: self.context)
                                                 
-                                                if imageURLTextField.text! == ""{
-                                                    newPhoto.imageURL = self.getRandomImageUrl()
-                                                } else {
-                                                    newPhoto.imageURL = imageURLTextField.text!
+                                                if imageURLTextField.text == "" {
+                                                    imageURLTextField.text = self.getRandomImageUrl()
                                                 }
-                                                newPhoto.caption = captionTextField.text!
-                                                newPhoto.timestamp = Date()
-                                                self.saveContext()
-                                                self.updatePhotoBucketArray()
-                                                self.tableView.reloadData()
+                                            
+                                                let newPhoto = Photo(imageURL: imageURLTextField.text!,
+                                                                     caption: captionTextField.text!)
+                                                
+                                                self.photoRef.addDocument(data: newPhoto.data)
+                                                
+                                                
         }
         
         alertController.addAction(cancelAction)
@@ -94,22 +163,22 @@ class PhotoBucketTableViewController: UITableViewController {
         return testImages[randomIndex];
     }
     
-    func saveContext() {
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
-    }
+//    func saveContext() {
+//        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+//    }
     
     //error here, but idk why :(
-    func updatePhotoBucketArray() {
-        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-        
-        do {
-            photoBucket = try context.fetch(request)
-        } catch {
-            fatalError("Unresolved Core Data error \(error)")
-        }
-        
-    }
+//    func updatePhotoBucketArray() {
+//        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
+//        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+//
+//        do {
+//            photoBucket = try context.fetch(request)
+//        } catch {
+//            fatalError("Unresolved Core Data error \(error)")
+//        }
+//
+//    }
 
     // MARK: - Table view data source
 
@@ -154,10 +223,7 @@ class PhotoBucketTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            context.delete(photoBucket[indexPath.row])
-            self.saveContext()
-            updatePhotoBucketArray()
-            
+            photoBucket.remove(at: indexPath.row)
             if photoBucket.count == 0{
                 tableView.reloadData()
                 self.setEditing(false, animated: true)
