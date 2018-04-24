@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A315B41208EC4DD00BB943E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A315B40208EC4DD00BB943E /* GoogleService-Info.plist */; };
 		0A583F7220856DEF00AAF495 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F7120856DEF00AAF495 /* AppDelegate.swift */; };
 		0A583F7520856DEF00AAF495 /* PhotoBucket.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F7320856DEF00AAF495 /* PhotoBucket.xcdatamodeld */; };
 		0A583F7C20856DEF00AAF495 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A583F7A20856DEF00AAF495 /* Main.storyboard */; };
@@ -14,9 +15,11 @@
 		0A583F8120856DEF00AAF495 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A583F7F20856DEF00AAF495 /* LaunchScreen.storyboard */; };
 		0A583F8920856FDF00AAF495 /* PhotoBucketTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F8820856FDF00AAF495 /* PhotoBucketTableViewController.swift */; };
 		0A583F8D2085A62F00AAF495 /* PhotoBucketDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F8C2085A62F00AAF495 /* PhotoBucketDetailViewController.swift */; };
+		8E63A2161BD5E345472FB46B /* Pods_PhotoBucket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35A39F76D18682C3FACBED49 /* Pods_PhotoBucket.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A315B40208EC4DD00BB943E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0A583F6E20856DEF00AAF495 /* PhotoBucket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBucket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A583F7120856DEF00AAF495 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A583F7420856DEF00AAF495 /* PhotoBucket.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PhotoBucket.xcdatamodel; sourceTree = "<group>"; };
@@ -26,6 +29,9 @@
 		0A583F8220856DEF00AAF495 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A583F8820856FDF00AAF495 /* PhotoBucketTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBucketTableViewController.swift; sourceTree = "<group>"; };
 		0A583F8C2085A62F00AAF495 /* PhotoBucketDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBucketDetailViewController.swift; sourceTree = "<group>"; };
+		35A39F76D18682C3FACBED49 /* Pods_PhotoBucket.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoBucket.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD5A0332657BDFACE3A0B650 /* Pods-PhotoBucket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoBucket.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoBucket/Pods-PhotoBucket.release.xcconfig"; sourceTree = "<group>"; };
+		E360D6E4A1511CFD1846DE16 /* Pods-PhotoBucket.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoBucket.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoBucket/Pods-PhotoBucket.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E63A2161BD5E345472FB46B /* Pods_PhotoBucket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +51,8 @@
 			children = (
 				0A583F7020856DEF00AAF495 /* PhotoBucket */,
 				0A583F6F20856DEF00AAF495 /* Products */,
+				655969928B7DC0CF115403F5 /* Pods */,
+				32EC5D9F84602E6A4A973281 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +67,7 @@
 		0A583F7020856DEF00AAF495 /* PhotoBucket */ = {
 			isa = PBXGroup;
 			children = (
+				0A315B40208EC4DD00BB943E /* GoogleService-Info.plist */,
 				0A583F7120856DEF00AAF495 /* AppDelegate.swift */,
 				0A583F7A20856DEF00AAF495 /* Main.storyboard */,
 				0A583F7D20856DEF00AAF495 /* Assets.xcassets */,
@@ -70,6 +80,23 @@
 			path = PhotoBucket;
 			sourceTree = "<group>";
 		};
+		32EC5D9F84602E6A4A973281 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				35A39F76D18682C3FACBED49 /* Pods_PhotoBucket.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		655969928B7DC0CF115403F5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E360D6E4A1511CFD1846DE16 /* Pods-PhotoBucket.debug.xcconfig */,
+				AD5A0332657BDFACE3A0B650 /* Pods-PhotoBucket.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,9 +104,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A583F8520856DEF00AAF495 /* Build configuration list for PBXNativeTarget "PhotoBucket" */;
 			buildPhases = (
+				EB18400120F47C3990DCDD42 /* [CP] Check Pods Manifest.lock */,
 				0A583F6A20856DEF00AAF495 /* Sources */,
 				0A583F6B20856DEF00AAF495 /* Frameworks */,
 				0A583F6C20856DEF00AAF495 /* Resources */,
+				108E2F85C9BCFD84BB0FAF1A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -130,12 +159,68 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A583F8120856DEF00AAF495 /* LaunchScreen.storyboard in Resources */,
+				0A315B41208EC4DD00BB943E /* GoogleService-Info.plist in Resources */,
 				0A583F7E20856DEF00AAF495 /* Assets.xcassets in Resources */,
 				0A583F7C20856DEF00AAF495 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		108E2F85C9BCFD84BB0FAF1A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PhotoBucket/Pods-PhotoBucket-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhotoBucket/Pods-PhotoBucket-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EB18400120F47C3990DCDD42 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhotoBucket-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0A583F6A20856DEF00AAF495 /* Sources */ = {
@@ -280,6 +365,7 @@
 		};
 		0A583F8620856DEF00AAF495 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E360D6E4A1511CFD1846DE16 /* Pods-PhotoBucket.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -294,6 +380,7 @@
 		};
 		0A583F8720856DEF00AAF495 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD5A0332657BDFACE3A0B650 /* Pods-PhotoBucket.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
