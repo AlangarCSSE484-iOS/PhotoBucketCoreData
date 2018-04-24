@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class PhotoBucketDetailViewController: UIViewController {
 
@@ -15,6 +16,8 @@ class PhotoBucketDetailViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     var photoToAdd : Photo?
     
+    var photoRef: DocumentReference?
+    var photoListener: ListenerRegistration!
     
     
     override func viewDidLoad() {
@@ -48,7 +51,7 @@ class PhotoBucketDetailViewController: UIViewController {
                                                 //self.updateView()
                                               //  self.saveContext()
                                                 self.captionLabel.text = self.photoToAdd?.caption
-                                                
+                                               self.photoRef?.setData(self.photoToAdd!.data)
         }
         
         alertController.addAction(cancelAction)
@@ -59,7 +62,23 @@ class PhotoBucketDetailViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.captionLabel.text = self.photoToAdd?.caption
+        photoListener = photoRef?.addSnapshotListener({ (documentSnapshot, error) in
+            if let error = error {
+                print("Error getting the document: \(error.localizedDescription)")
+                return
+            }
+            if !documentSnapshot!.exists {
+                print("This document got deleted by someone else!")
+                return
+            }
+            self.photoToAdd = Photo(documentSnapshot: documentSnapshot!)
+            self.updateView()
+        })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        photoListener.remove()
     }
     
     func updateView() {

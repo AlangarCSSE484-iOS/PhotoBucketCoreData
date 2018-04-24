@@ -35,6 +35,7 @@ class PhotoBucketTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.photoBucket.removeAll()
         photoListener = photoRef.order(by: "timestamp", descending: true).addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
                 print("error fetching photos. error: \(error!.localizedDescription)")
@@ -223,14 +224,15 @@ class PhotoBucketTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            photoBucket.remove(at: indexPath.row)
-            if photoBucket.count == 0{
-                tableView.reloadData()
-                self.setEditing(false, animated: true)
-            } else {
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            }
-            
+//            photoBucket.remove(at: indexPath.row)
+//            if photoBucket.count == 0{
+//                tableView.reloadData()
+//                self.setEditing(false, animated: true)
+//            } else {
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//            }
+            let photoToDelete = photoBucket[indexPath.row]
+            photoRef.document(photoToDelete.id!).delete()
 
         }
     }
@@ -242,8 +244,8 @@ class PhotoBucketTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowDetailSegueIdentifier {
             if let indexPath = tableView.indexPathForSelectedRow {
-                (segue.destination as! PhotoBucketDetailViewController).photoToAdd =
-                    photoBucket[indexPath.row]
+                (segue.destination as! PhotoBucketDetailViewController).photoRef
+                    = photoRef.document(photoBucket[indexPath.row].id!)
             }
         }
     }
