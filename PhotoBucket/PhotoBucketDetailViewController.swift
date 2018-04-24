@@ -85,7 +85,7 @@ class PhotoBucketDetailViewController: UIViewController {
     }
     
     func saveContext() {
-        (UIApplication.shared.delete as! AppDelegate).saveContext()
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
 
     
