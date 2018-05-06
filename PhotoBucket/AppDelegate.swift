@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         FirebaseApp.configure()
         
         //if Auth.auth().currentUser == nil
-        let loggedIn = true;
+        let loggedIn = false;
         if loggedIn{
             showLoginViewController();
         } else {
@@ -38,10 +38,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func showPhotoBucketViewController() {
         print("showing photo bucket view controller")
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let passwordViewController = storyboard.instantiateViewController(withIdentifier: "PasswordViewController")
+        //let passwordViewController = storyboard.instantiateViewController(withIdentifier: "PasswordViewController")
+        let photoBucketViewController = storyboard.instantiateViewController(withIdentifier: "PhotoBucketViewController")
        // window!.rootViewController = AppNavBar(rootViewController: passwordViewController)
     }
 
 
 }
-
