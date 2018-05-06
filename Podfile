@@ -7,7 +7,17 @@ target 'PhotoBucket' do
 
   # Pods for PhotoBucket
 
+  pod 'Material', '~> 2.14.0'
+  pod 'FoldingCell', '~> 3.0.6'
+
   pod 'Firebase/Core'
-  pod 'Firebase/Firestore'  
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+
+  pod 'Rosefire', :git => 'https://ada.csse.rose-hulman.edu/rosefire/ios-sdk.git'
+
+  pod 'GoogleSignIn'
+
+
 
 end

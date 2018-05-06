@@ -17,9 +17,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        
+        //if Auth.auth().currentUser == nil
+        let loggedIn = true;
+        if loggedIn{
+            showLoginViewController();
+        } else {
+            showPhotoBucketViewController();
+        }
         return true
     }
-
+    
+    func showLoginViewController() {
+        print ("Showing login view controller")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+    
+    }
+    
+    func showPhotoBucketViewController() {
+        print("showing photo bucket view controller")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let passwordViewController = storyboard.instantiateViewController(withIdentifier: "PasswordViewController")
+       // window!.rootViewController = AppNavBar(rootViewController: passwordViewController)
+    }
 
 
 }

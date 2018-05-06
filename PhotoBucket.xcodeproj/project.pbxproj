@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A315B41208EC4DD00BB943E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A315B40208EC4DD00BB943E /* GoogleService-Info.plist */; };
 		0A315B45208EE33500BB943E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A315B44208EE33500BB943E /* Photo.swift */; };
+		0A315B71209E9C0500BB943E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A315B70209E9C0500BB943E /* LoginViewController.swift */; };
 		0A583F7220856DEF00AAF495 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A583F7120856DEF00AAF495 /* AppDelegate.swift */; };
 		0A583F7C20856DEF00AAF495 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A583F7A20856DEF00AAF495 /* Main.storyboard */; };
 		0A583F7E20856DEF00AAF495 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A583F7D20856DEF00AAF495 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		0A315B40208EC4DD00BB943E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0A315B44208EE33500BB943E /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		0A315B70209E9C0500BB943E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0A583F6E20856DEF00AAF495 /* PhotoBucket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBucket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A583F7120856DEF00AAF495 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A583F7B20856DEF00AAF495 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				0A583F8820856FDF00AAF495 /* PhotoBucketTableViewController.swift */,
 				0A583F8C2085A62F00AAF495 /* PhotoBucketDetailViewController.swift */,
 				0A315B44208EE33500BB943E /* Photo.swift */,
+				0A315B70209E9C0500BB943E /* LoginViewController.swift */,
 			);
 			path = PhotoBucket;
 			sourceTree = "<group>";
@@ -109,6 +112,7 @@
 				0A583F6B20856DEF00AAF495 /* Frameworks */,
 				0A583F6C20856DEF00AAF495 /* Resources */,
 				108E2F85C9BCFD84BB0FAF1A /* [CP] Embed Pods Frameworks */,
+				CDA30BA60F605313B0F5355A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -176,8 +180,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-PhotoBucket/Pods-PhotoBucket-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/FoldingCell/FoldingCell.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
+				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Rosefire/Rosefire.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
@@ -188,8 +198,14 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FoldingCell.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rosefire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
@@ -200,6 +216,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhotoBucket/Pods-PhotoBucket-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CDA30BA60F605313B0F5355A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PhotoBucket/Pods-PhotoBucket-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhotoBucket/Pods-PhotoBucket-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EB18400120F47C3990DCDD42 /* [CP] Check Pods Manifest.lock */ = {
@@ -230,6 +264,7 @@
 				0A315B45208EE33500BB943E /* Photo.swift in Sources */,
 				0A583F7220856DEF00AAF495 /* AppDelegate.swift in Sources */,
 				0A583F8D2085A62F00AAF495 /* PhotoBucketDetailViewController.swift in Sources */,
+				0A315B71209E9C0500BB943E /* LoginViewController.swift in Sources */,
 				0A583F8920856FDF00AAF495 /* PhotoBucketTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

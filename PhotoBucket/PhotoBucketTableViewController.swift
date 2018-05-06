@@ -20,6 +20,8 @@ class PhotoBucketTableViewController: UITableViewController {
     let NoPhotoBucketCellIdentifier = "NoPhotoBucketCell"
     let ShowDetailSegueIdentifier = "ShowDetailSegue"
     
+    @IBOutlet weak var titleLabel: UINavigationItem!
+    
     var photoBucket = [Photo]()
     
     override func viewDidLoad() {
