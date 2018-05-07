@@ -12,14 +12,7 @@ import Firebase
 import Rosefire
 import GoogleSignIn
 
-
-
-class LoginViewController: UIViewController, GIDSignInDelegate {
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        <#code#>
-    }
-    
-
+class LoginViewController: UIViewController, GIDSignInUIDelegate {
     
     let rosefireRegistryToken = "a3060971-cddb-4332-b25f-1f0601ca058e"
     
@@ -37,7 +30,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         super.viewDidLoad()
         prepareView()
         
-        GIDSignIn.sharedInstance().uiDelegate = self as! GIDSignInUIDelegate  
+        GIDSignIn.sharedInstance().uiDelegate = self
         googleLoginButton.style = .wide
         
         // Do any additional setup after loading the view.
@@ -62,10 +55,6 @@ class LoginViewController: UIViewController, GIDSignInDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-//    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-//        <#code#>
-//    }
     
     
     // MARK: - Navigation

@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
         
-        if Auth.auth().currentUser != nil {
+        if Auth.auth().currentUser == nil {
             showLoginViewController();
         } else {
             showPhotoBucketViewController();
@@ -67,10 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
         }
     }
     
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        //DUDE IDK WHAT TO DO HERE, THE DOCUMENTATION SAYS I NEED THIS....
-    }
-    
+
     func application(_ app: UIApplication,
                      open url: URL,
                      options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -86,14 +83,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
     }
     
     func showPhotoBucketViewController() {
-        print("showing photo bucket view controller")
+        print("showing photo bucket view controller!!!")
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        //let passwordViewController = storyboard.instantiateViewController(withIdentifier: "PasswordViewController")
-        _ = storyboard.instantiateViewController(withIdentifier: "PhotoBucketViewController")
-       // window!.rootViewController = AppNavBar(rootViewController: passwordViewController)
+        //window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "PhotoBucketViewController")
+        window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "NavigationController")
+      
     }
-
-
 
 }
 
