@@ -18,14 +18,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         
-        //if Auth.auth().currentUser == nil
-        let showLoginScreen = false;
-        if showLoginScreen{
+
+        if Auth.auth().currentUser == nil {
             showLoginViewController();
         } else {
             showPhotoBucketViewController();
         }
         return true
+    }
+    
+    func handleLogin() {
+        showPhotoBucketViewController()
+    }
+    
+    @objc func handleLogout() {
+        do{
+            try Auth.auth().signOut()
+        } catch {
+            print ("Error on signout: \(error.localizedDescription)")
+        }
+        showLoginViewController()
     }
     
     func showLoginViewController() {
@@ -44,4 +56,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }
 
 
+}
+
+extension UIViewController {
+    var appDelegate : AppDelegate{
+        get{
+            return UIApplication.shared.delegate as! AppDelegate
+        }
+    }
 }
