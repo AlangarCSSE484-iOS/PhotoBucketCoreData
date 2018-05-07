@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        //I broke things...
         window = UIWindow(frame: UIScreen.main.bounds)
         
         FirebaseApp.configure()
