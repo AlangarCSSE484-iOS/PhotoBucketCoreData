@@ -14,7 +14,12 @@ import GoogleSignIn
 
 
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, GIDSignInDelegate {
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        <#code#>
+    }
+    
+
     
     let rosefireRegistryToken = "a3060971-cddb-4332-b25f-1f0601ca058e"
     
@@ -31,7 +36,10 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareView()
-
+        
+        GIDSignIn.sharedInstance().uiDelegate = self as! GIDSignInUIDelegate  
+        googleLoginButton.style = .wide
+        
         // Do any additional setup after loading the view.
     }
     
@@ -49,17 +57,16 @@ class LoginViewController: UIViewController {
         rosefireLoginButton.backgroundColor = UIColor(red: 0.5, green: 0, blue: 0, alpha: 0.9)
         rosefireLoginButton.pulseColor = .white
         
-        // Google OAuth
-        //    googleLoginButton.style = .wide
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+//    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+//        <#code#>
+//    }
     
-
     
     // MARK: - Navigation
  
@@ -80,6 +87,7 @@ class LoginViewController: UIViewController {
 
     
     @IBAction func rosefireLogin(_ sender: Any) {
+        print("Pressed Rosefire Login")
         Rosefire.sharedDelegate().uiDelegate = self
         Rosefire.sharedDelegate().signIn(registryToken: rosefireRegistryToken) { (error, result) in
             if let error = error {
@@ -93,6 +101,5 @@ class LoginViewController: UIViewController {
 
         }
         print("Pressed Rosefire Login")
-        
     }
 }

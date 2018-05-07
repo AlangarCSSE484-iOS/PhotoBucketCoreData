@@ -8,18 +8,22 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
         FirebaseApp.configure()
         
-
-        if Auth.auth().currentUser == nil {
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().delegate = self
+        
+        if Auth.auth().currentUser != nil {
             showLoginViewController();
         } else {
             showPhotoBucketViewController();
@@ -32,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }
     
     @objc func handleLogout() {
+        GIDSignIn.sharedInstance().signOut()
         do{
             try Auth.auth().signOut()
         } catch {
@@ -40,6 +45,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         showLoginViewController()
     }
     
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print ("Error with Google Auth! \(error.localizedDescription)")
+            return
+        }
+        
+        print("you are now signed in with Google. \(user.profile.givenName)")
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+                                                       accessToken: authentication.accessToken)
+        
+        Auth.auth().signIn(with: credential) { (user, error) in
+            if let error = error {
+                print("Firebase auth error with the Google Token. error: \(error.localizedDescription)" )
+            }
+            if let user = user {
+                print ("Firebase uid = \(user.uid)")
+                self.handleLogin()
+            }
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        //DUDE IDK WHAT TO DO HERE, THE DOCUMENTATION SAYS I NEED THIS....
+    }
+    
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url,
+                                                 sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+                                                 annotation: [:])
+    }
     func showLoginViewController() {
         print ("Showing login view controller")
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -51,9 +89,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         print("showing photo bucket view controller")
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         //let passwordViewController = storyboard.instantiateViewController(withIdentifier: "PasswordViewController")
-        let photoBucketViewController = storyboard.instantiateViewController(withIdentifier: "PhotoBucketViewController")
+        _ = storyboard.instantiateViewController(withIdentifier: "PhotoBucketViewController")
        // window!.rootViewController = AppNavBar(rootViewController: passwordViewController)
     }
+
 
 
 }
