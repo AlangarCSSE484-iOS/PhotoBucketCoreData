@@ -15,15 +15,18 @@ class Photo: NSObject {
     var imageURL: String
     var caption: String
     var timestamp: Date!
+    var uid: String
     
     let imageKey = "imageURL"
     let captionKey = "caption"
     let timestampKey = "timestamp"
+    let uidKey = "uid"
 
     init(imageURL: String, caption: String) {
         self.imageURL = imageURL
         self.caption = caption
         self.timestamp = Date()
+        self.uid = Auth.auth().currentUser!.uid
     }
     
     init(documentSnapshot: DocumentSnapshot) {
@@ -34,12 +37,18 @@ class Photo: NSObject {
         if (data[timestampKey] != nil) {
             self.timestamp = data[timestampKey] as! Date
         }
+        if (data[uidKey] != nil) {
+            self.uid = data[uidKey] as! String
+        } else {
+            self.uid = ""
+        }
     }
 
     var data: [String: Any] {
         return [imageKey: self.imageURL,
                 captionKey: self.caption,
-                timestampKey: self.timestamp]
+                timestampKey: self.timestamp,
+                uidKey: self.uid]
     }
     
     

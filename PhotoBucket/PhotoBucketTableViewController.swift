@@ -12,7 +12,7 @@ import Firebase
 
 class PhotoBucketTableViewController: UITableViewController {
     
-
+    var currentUserCollectionRef: CollectionReference!
     var photoRef: CollectionReference!
     var photoListener: ListenerRegistration!
     
@@ -43,12 +43,14 @@ class PhotoBucketTableViewController: UITableViewController {
             Auth.auth().signInAnonymously { (user, error) in
                 if (error == nil) {
                     print("You are now signed in using Anonymous auth. uid: \(user!.uid)")
+                    self.setupFirebaseObservers()
                 } else {
                     print("Error with anonymous auth: \(error!.localizedDescription). \(error.debugDescription)")
                 }
             }
         } else {
             print("You are already signed in as \(Auth.auth().currentUser!.uid)")
+            self.setupFirebaseObservers()
         }
         
         
@@ -73,6 +75,13 @@ class PhotoBucketTableViewController: UITableViewController {
             })
             self.tableView.reloadData()
         })
+    }
+    
+    func setupFirebaseObservers() {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        currentUserCollectionRef = Firestore.firestore().collection(currentUser.uid)
+        
+        
     }
     
     func photoAdded(_ document: DocumentSnapshot){
