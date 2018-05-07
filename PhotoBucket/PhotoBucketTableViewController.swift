@@ -37,6 +37,21 @@ class PhotoBucketTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        //anonymous auth just for now
+        if (Auth.auth().currentUser == nil) {
+            Auth.auth().signInAnonymously { (user, error) in
+                if (error == nil) {
+                    print("You are now signed in using Anonymous auth. uid: \(user!.uid)")
+                } else {
+                    print("Error with anonymous auth: \(error!.localizedDescription). \(error.debugDescription)")
+                }
+            }
+        } else {
+            print("You are already signed in as \(Auth.auth().currentUser!.uid)")
+        }
+        
+        
         self.photoBucket.removeAll()
         photoListener = photoRef.order(by: "timestamp", descending: true).addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {

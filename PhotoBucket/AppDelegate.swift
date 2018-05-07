@@ -19,8 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         FirebaseApp.configure()
         
         //if Auth.auth().currentUser == nil
-        let loggedIn = false;
-        if loggedIn{
+        let showLoginScreen = false;
+        if showLoginScreen{
             showLoginViewController();
         } else {
             showPhotoBucketViewController();
