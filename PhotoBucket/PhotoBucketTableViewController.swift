@@ -15,6 +15,7 @@ class PhotoBucketTableViewController: UITableViewController {
     var currentUserCollectionRef: CollectionReference!
     var photoRef: CollectionReference!
     var photoListener: ListenerRegistration!
+    var myPhotoQuery: Query!
     
     let PhotoBucketCellIdentifier = "PhotoBucketCell"
     let NoPhotoBucketCellIdentifier = "NoPhotoBucketCell"
@@ -23,7 +24,9 @@ class PhotoBucketTableViewController: UITableViewController {
     @IBOutlet weak var titleLabel: UINavigationItem!
     
     var photoBucket = [Photo]()
+    var showAllPhotos = true
     
+    //MARK: start
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,10 +34,12 @@ class PhotoBucketTableViewController: UITableViewController {
 //        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
 //                                                                 target: self,
 //                                                                 action: #selector(showAddDialog))
-     //   self.navigationItem.rightBarButtonItem = 
         
         photoRef = Firestore.firestore().collection("photos")
-  
+//        if let currentUser = Auth.auth().currentUser {
+//            myPhotoQuery = photoRef.whereField("uid", isEqualTo: currentUser)
+//        }
+//
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,14 +50,14 @@ class PhotoBucketTableViewController: UITableViewController {
             Auth.auth().signInAnonymously { (user, error) in
                 if (error == nil) {
                     print("You are now signed in using Anonymous auth. uid: \(user!.uid)")
-                    self.setupFirebaseObservers()
+                    
                 } else {
                     print("Error with anonymous auth: \(error!.localizedDescription). \(error.debugDescription)")
                 }
             }
         } else {
             print("You are already signed in as \(Auth.auth().currentUser!.uid)")
-            self.setupFirebaseObservers()
+         
         }
         
         
@@ -79,10 +84,7 @@ class PhotoBucketTableViewController: UITableViewController {
         })
     }
     
-    func setupFirebaseObservers() {
-        guard let currentUser = Auth.auth().currentUser else { return }
-        currentUserCollectionRef = Firestore.firestore().collection(currentUser.uid)
-    }
+    //MARK: menu options
     
     @IBAction func menuPressed(_ sender: Any) {
         let ac = UIAlertController(title: "Photo Bucket Menu",
@@ -94,6 +96,38 @@ class PhotoBucketTableViewController: UITableViewController {
                                             self.showAddDialog()
                                             print("pressed add")
         }
+        var editPhotoAction: UIAlertAction
+        if (isEditing) {
+            editPhotoAction = UIAlertAction(title: "Done Editing",
+                                            style: .default,
+                                            handler: { (action) in
+                                                self.isEditing = false
+            })
+        } else {
+            editPhotoAction = UIAlertAction(title: "Delete Photos",
+                                            style: .default,
+                                            handler: { (action) in
+                                                self.isEditing = true
+            })
+        }
+        
+        var showPhotoAction: UIAlertAction
+        if(showAllPhotos) {
+            showPhotoAction = UIAlertAction(title: "Show only my photos",
+                                            style: .default,
+                                            handler: { (action) in
+                                                self.showAllPhotos = false
+                                                self.showMyPhotos()
+            })
+        } else {
+            showPhotoAction = UIAlertAction(title: "Show all photos",
+                                            style: .default,
+                                            handler: { (action) in
+                                                self.showAllPhotos = true
+                                                self.showEveryPhoto()
+            })
+        }
+        
         
         let signOutPhotoAction = UIAlertAction(title: "Sign out",
                                                style: .destructive) { (action) in
@@ -105,12 +139,24 @@ class PhotoBucketTableViewController: UITableViewController {
                                          handler: nil)
         
         ac.addAction(addPhotoAction)
+        ac.addAction(editPhotoAction)
+        ac.addAction(showPhotoAction)
         ac.addAction(signOutPhotoAction)
         ac.addAction(cancelAction)
         self.present(ac, animated: true, completion: nil)
     }
     
+    func showEveryPhoto() {
+        print("showing all photos")
+    }
     
+    func showMyPhotos() {
+        print("showing only my photos")
+    }
+    
+    
+    
+    //MARK: Database changes
     func photoAdded(_ document: DocumentSnapshot){
         let newPhoto = Photo(documentSnapshot: document)
         photoBucket.append(newPhoto)
@@ -261,15 +307,20 @@ class PhotoBucketTableViewController: UITableViewController {
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return photoBucket.count > 0
+        let currentUID = Auth.auth().currentUser!.uid
+        if photoBucket.count > 0 && currentUID == photoBucket[indexPath.row].uid {
+            return true
+        }
+        
+        return false
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         if photoBucket.count == 0{
-            super.setEditing(false, animated: false)
+            super.setEditing(false, animated: animated)
         }
         else {
-            super.setEditing(true, animated: animated)
+            super.setEditing(editing, animated: animated)
         }
     }
     
@@ -277,16 +328,11 @@ class PhotoBucketTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//            photoBucket.remove(at: indexPath.row)
-//            if photoBucket.count == 0{
-//                tableView.reloadData()
-//                self.setEditing(false, animated: true)
-//            } else {
-//                tableView.deleteRows(at: [indexPath], with: .fade)
-//            }
             let photoToDelete = photoBucket[indexPath.row]
             photoRef.document(photoToDelete.id!).delete()
-
+        }
+        else {
+            setEditing(false, animated: true)
         }
     }
 
