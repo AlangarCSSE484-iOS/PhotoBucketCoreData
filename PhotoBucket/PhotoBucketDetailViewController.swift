@@ -16,16 +16,12 @@ class PhotoBucketDetailViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     var photoToAdd : Photo?
     
-    var photoRef: DocumentReference?
+    var photoRef: DocumentReference!
     var photoListener: ListenerRegistration!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
-                                                                 target: self,
-                                                                 action: #selector(showEditDialog))
-
     }
     
     
@@ -83,6 +79,14 @@ class PhotoBucketDetailViewController: UIViewController {
     
     func updateView() {
         self.captionLabel.text = self.photoToAdd?.caption
+        //if correct user, be able to edit
+        
+        let currentUID = Auth.auth().currentUser!.uid
+        if (photoToAdd != nil && currentUID == photoToAdd?.uid) {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+                                                                     target: self,
+                                                                     action: #selector(showEditDialog))
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
