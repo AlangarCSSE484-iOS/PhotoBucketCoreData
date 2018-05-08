@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        
         FirebaseApp.configure()
         
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
@@ -50,12 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
             print ("Error with Google Auth! \(error.localizedDescription)")
             return
         }
-        
         print("you are now signed in with Google. \(user.profile.givenName)")
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                        accessToken: authentication.accessToken)
-        
         Auth.auth().signIn(with: credential) { (user, error) in
             if let error = error {
                 print("Firebase auth error with the Google Token. error: \(error.localizedDescription)" )
@@ -67,7 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
         }
     }
     
-
     func application(_ app: UIApplication,
                      open url: URL,
                      options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -75,11 +71,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
                                                  sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
                                                  annotation: [:])
     }
+    
     func showLoginViewController() {
         print ("Showing login view controller")
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
-    
     }
     
     func showPhotoBucketViewController() {
@@ -87,9 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,  GIDSignInDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         //window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "PhotoBucketViewController")
         window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "NavigationController")
-      
     }
-
 }
 
 extension UIViewController {

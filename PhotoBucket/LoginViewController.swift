@@ -32,30 +32,19 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         
         GIDSignIn.sharedInstance().uiDelegate = self
         googleLoginButton.style = .wide
-        
-        // Do any additional setup after loading the view.
     }
     
     func prepareView() {
         self.view.backgroundColor = Color.indigo.base
         titleLabel.font = RobotoFont.thin(with: 36)
-        
-        // Email / Password
-        //prepareEmailPasswordCard()
-        
+
         // Rosefire
         rosefireLoginButton.title = "Rosefire Login"
         rosefireLoginButton.titleColor = .white
         rosefireLoginButton.titleLabel!.font = RobotoFont.medium(with: 18)
         rosefireLoginButton.backgroundColor = UIColor(red: 0.5, green: 0, blue: 0, alpha: 0.9)
         rosefireLoginButton.pulseColor = .white
-        
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     // MARK: - Navigation
  
@@ -74,7 +63,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         }
     }
 
-    
     @IBAction func rosefireLogin(_ sender: Any) {
         print("Pressed Rosefire Login")
         Rosefire.sharedDelegate().uiDelegate = self
@@ -87,7 +75,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
 
             Auth.auth().signIn(withCustomToken: result!.token,
                                completion: self.loginCompletionCallback)
-
         }
         print("Pressed Rosefire Login")
     }

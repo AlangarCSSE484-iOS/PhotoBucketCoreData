@@ -29,38 +29,11 @@ class PhotoBucketTableViewController: UITableViewController {
     //MARK: start
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        self.navigationItem.leftBarButtonItem = self.editButtonItem
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-//                                                                 target: self,
-//                                                                 action: #selector(showAddDialog))
-        
         photoRef = Firestore.firestore().collection("photos")
-      
-//        if let currentUser = Auth.auth().currentUser {
-//            myPhotoQuery = photoRef.whereField("uid", isEqualTo: currentUser)
-//        }
-//
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        //Sign in
-//        if (Auth.auth().currentUser == nil) {
-//            Auth.auth().signInAnonymously { (user, error) in
-//                if (error == nil) {
-//                    print("You are now signed in using Anonymous auth. uid: \(user!.uid)")
-//
-//                } else {
-//                    print("Error with anonymous auth: \(error!.localizedDescription). \(error.debugDescription)")
-//                }
-//            }
-//        } else {
-//            print("You are already signed in as \(Auth.auth().currentUser!.uid)")
-//
-//        }
-//
         self.photoBucket.removeAll()
         
         if showAllPhotos{
@@ -80,7 +53,6 @@ class PhotoBucketTableViewController: UITableViewController {
                             self.photoRemoved(docChange.document)
                         }
                     }
-                    
                     self.photoBucket.sort(by: { (p1, p2) -> Bool in
                         return p1.timestamp > p2.timestamp
                     })
@@ -104,7 +76,6 @@ class PhotoBucketTableViewController: UITableViewController {
                                 self.photoRemoved(docChange.document)
                             }
                         }
-                        
                         self.photoBucket.sort(by: { (p1, p2) -> Bool in
                             return p1.timestamp > p2.timestamp
                         })
@@ -140,7 +111,6 @@ class PhotoBucketTableViewController: UITableViewController {
                                                 self.isEditing = true
             })
         }
-        
         var showPhotoAction: UIAlertAction
         if(showAllPhotos) {
             showPhotoAction = UIAlertAction(title: "Show only my photos",
@@ -157,13 +127,10 @@ class PhotoBucketTableViewController: UITableViewController {
                                                 self.viewWillAppear(true)
             })
         }
-        
-        
         let signOutPhotoAction = UIAlertAction(title: "Sign out",
                                                style: .destructive) { (action) in
                                                 self.appDelegate.handleLogout()
         }
-        
         let cancelAction = UIAlertAction(title: "Cancel",
                                          style: .cancel,
                                          handler: nil)
@@ -183,8 +150,6 @@ class PhotoBucketTableViewController: UITableViewController {
     func showMyPhotos() {
         print("showing only my photos")
     }
-    
-    
     
     //MARK: Database changes
     func photoAdded(_ document: DocumentSnapshot){
@@ -210,7 +175,6 @@ class PhotoBucketTableViewController: UITableViewController {
                 break
             }
         }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -234,44 +198,17 @@ class PhotoBucketTableViewController: UITableViewController {
                                          style: .cancel,
                                          handler: nil)
         
-//        let createPhotoAction = UIAlertAction(title: "Add Photo",
-//                                              style: .default) {
-//                                                (action) in
-//                                                let captionTextField = alertController.textFields![0]
-//                                                let imageURLTextField = alertController.textFields![1]
-//
-//                                                let newPhoto = Photo(context: self.context)
-//
-//                                                if imageURLTextField.text! == ""{
-//                                                    newPhoto.imageURL = self.getRandomImageUrl()
-//                                                } else {
-//                                                    newPhoto.imageURL = imageURLTextField.text!
-//                                                }
-        
-        
-//                                                newPhoto.caption = captionTextField.text!
-//                                                newPhoto.timestamp = Date()
-//                                                self.saveContext()
-//                                                self.updatePhotoBucketArray()
-//                                                self.tableView.reloadData()
-//        }
-        
         let createPhotoAction = UIAlertAction(title: "Add Photo",
                                               style: .default) {
                                                 (action) in
                                                 let captionTextField = alertController.textFields![0]
                                                 let imageURLTextField = alertController.textFields![1]
-                                                
                                                 if imageURLTextField.text == "" {
                                                     imageURLTextField.text = self.getRandomImageUrl()
                                                 }
-                                            
                                                 let newPhoto = Photo(imageURL: imageURLTextField.text!,
                                                                      caption: captionTextField.text!)
-                                                
                                                 self.photoRef.addDocument(data: newPhoto.data)
-                                                
-                                                
         }
         
         alertController.addAction(cancelAction)
@@ -292,23 +229,6 @@ class PhotoBucketTableViewController: UITableViewController {
         let randomIndex = Int(arc4random_uniform(UInt32(testImages.count)))
         return testImages[randomIndex];
     }
-    
-//    func saveContext() {
-//        (UIApplication.shared.delegate as! AppDelegate).saveContext()
-//    }
-    
-    //error here, but idk why :(
-//    func updatePhotoBucketArray() {
-//        let request: NSFetchRequest<Photo> = Photo.fetchRequest()
-//        request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-//
-//        do {
-//            photoBucket = try context.fetch(request)
-//        } catch {
-//            fatalError("Unresolved Core Data error \(error)")
-//        }
-//
-//    }
 
     // MARK: - Table view data source
 
@@ -341,7 +261,6 @@ class PhotoBucketTableViewController: UITableViewController {
         if photoBucket.count > 0 && currentUID == photoBucket[indexPath.row].uid {
             return true
         }
-        
         return false
     }
     
@@ -354,7 +273,6 @@ class PhotoBucketTableViewController: UITableViewController {
         }
     }
     
-    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -366,7 +284,6 @@ class PhotoBucketTableViewController: UITableViewController {
         }
     }
 
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -378,6 +295,4 @@ class PhotoBucketTableViewController: UITableViewController {
             }
         }
     }
- 
-
 }
