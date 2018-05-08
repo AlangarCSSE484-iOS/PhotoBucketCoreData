@@ -63,7 +63,13 @@
                             <outlet property="delegate" destination="Nuy-Gy-i9e" id="rIb-TA-Idd"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Photo Bucket" id="mvs-1Y-ENd"/>
+                    <navigationItem key="navigationItem" title="Photo Bucket" id="mvs-1Y-ENd">
+                        <barButtonItem key="rightBarButtonItem" title="Menu" id="jqb-4a-WIb">
+                            <connections>
+                                <action selector="menuPressed:" destination="Nuy-Gy-i9e" id="IFg-wd-Cj8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="titleLabel" destination="mvs-1Y-ENd" id="iUQ-Uu-EQH"/>
                     </connections>

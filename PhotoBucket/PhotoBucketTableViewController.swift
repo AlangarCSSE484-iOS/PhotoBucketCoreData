@@ -27,10 +27,12 @@ class PhotoBucketTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.leftBarButtonItem = self.editButtonItem
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                                 target: self,
-                                                                 action: #selector(showAddDialog))
+//        self.navigationItem.leftBarButtonItem = self.editButtonItem
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+//                                                                 target: self,
+//                                                                 action: #selector(showAddDialog))
+     //   self.navigationItem.rightBarButtonItem = 
+        
         photoRef = Firestore.firestore().collection("photos")
   
     }
@@ -80,9 +82,34 @@ class PhotoBucketTableViewController: UITableViewController {
     func setupFirebaseObservers() {
         guard let currentUser = Auth.auth().currentUser else { return }
         currentUserCollectionRef = Firestore.firestore().collection(currentUser.uid)
-        
-        
     }
+    
+    @IBAction func menuPressed(_ sender: Any) {
+        let ac = UIAlertController(title: "Photo Bucket Menu",
+                                   message: "What would you like to do?",
+                                   preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let addPhotoAction = UIAlertAction(title: "Add Photo",
+                                           style: .default) { (action) in
+                                            self.showAddDialog()
+                                            print("pressed add")
+        }
+        
+        let signOutPhotoAction = UIAlertAction(title: "Sign out",
+                                               style: .destructive) { (action) in
+                                                self.appDelegate.handleLogout()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .cancel,
+                                         handler: nil)
+        
+        ac.addAction(addPhotoAction)
+        ac.addAction(signOutPhotoAction)
+        ac.addAction(cancelAction)
+        self.present(ac, animated: true, completion: nil)
+    }
+    
     
     func photoAdded(_ document: DocumentSnapshot){
         let newPhoto = Photo(documentSnapshot: document)
