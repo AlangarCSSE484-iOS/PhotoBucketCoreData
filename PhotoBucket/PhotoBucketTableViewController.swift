@@ -36,6 +36,7 @@ class PhotoBucketTableViewController: UITableViewController {
 //                                                                 action: #selector(showAddDialog))
         
         photoRef = Firestore.firestore().collection("photos")
+      
 //        if let currentUser = Auth.auth().currentUser {
 //            myPhotoQuery = photoRef.whereField("uid", isEqualTo: currentUser)
 //        }
@@ -45,43 +46,72 @@ class PhotoBucketTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //anonymous auth just for now
-        if (Auth.auth().currentUser == nil) {
-            Auth.auth().signInAnonymously { (user, error) in
-                if (error == nil) {
-                    print("You are now signed in using Anonymous auth. uid: \(user!.uid)")
-                    
-                } else {
-                    print("Error with anonymous auth: \(error!.localizedDescription). \(error.debugDescription)")
-                }
-            }
-        } else {
-            print("You are already signed in as \(Auth.auth().currentUser!.uid)")
-         
-        }
-        
-        
+//        //Sign in
+//        if (Auth.auth().currentUser == nil) {
+//            Auth.auth().signInAnonymously { (user, error) in
+//                if (error == nil) {
+//                    print("You are now signed in using Anonymous auth. uid: \(user!.uid)")
+//
+//                } else {
+//                    print("Error with anonymous auth: \(error!.localizedDescription). \(error.debugDescription)")
+//                }
+//            }
+//        } else {
+//            print("You are already signed in as \(Auth.auth().currentUser!.uid)")
+//
+//        }
+//
         self.photoBucket.removeAll()
-        photoListener = photoRef.order(by: "timestamp", descending: true).addSnapshotListener({ (querySnapshot, error) in
-            guard let snapshot = querySnapshot else {
-                print("error fetching photos. error: \(error!.localizedDescription)")
-                return
-            }
-            snapshot.documentChanges.forEach{(docChange) in
-                if (docChange.type == .added) {
-                    self.photoAdded(docChange.document)
-                } else if (docChange.type == .modified) {
-                    self.photoUpdated(docChange.document)
-                } else if (docChange.type == .removed) {
-                    self.photoRemoved(docChange.document)
-                }
-            }
-            
-            self.photoBucket.sort(by: { (p1, p2) -> Bool in
-                return p1.timestamp > p2.timestamp
+        
+        if showAllPhotos{
+            photoListener = photoRef
+                .order(by: "timestamp", descending: true)
+                .addSnapshotListener({ (querySnapshot, error) in
+                    guard let snapshot = querySnapshot else {
+                        print("error fetching photos. error: \(error!.localizedDescription)")
+                        return
+                    }
+                    snapshot.documentChanges.forEach{(docChange) in
+                        if (docChange.type == .added) {
+                            self.photoAdded(docChange.document)
+                        } else if (docChange.type == .modified) {
+                            self.photoUpdated(docChange.document)
+                        } else if (docChange.type == .removed) {
+                            self.photoRemoved(docChange.document)
+                        }
+                    }
+                    
+                    self.photoBucket.sort(by: { (p1, p2) -> Bool in
+                        return p1.timestamp > p2.timestamp
+                    })
+                    self.tableView.reloadData()
             })
-            self.tableView.reloadData()
-        })
+        } else {
+            if let currentUID = Auth.auth().currentUser?.uid {
+                photoListener = photoRef
+                    .whereField("uid", isEqualTo: currentUID)
+                    .addSnapshotListener({ (querySnapshot, error) in
+                        guard let snapshot = querySnapshot else {
+                            print("error fetching photos. error: \(error!.localizedDescription)")
+                            return
+                        }
+                        snapshot.documentChanges.forEach{(docChange) in
+                            if (docChange.type == .added) {
+                                self.photoAdded(docChange.document)
+                            } else if (docChange.type == .modified) {
+                                self.photoUpdated(docChange.document)
+                            } else if (docChange.type == .removed) {
+                                self.photoRemoved(docChange.document)
+                            }
+                        }
+                        
+                        self.photoBucket.sort(by: { (p1, p2) -> Bool in
+                            return p1.timestamp > p2.timestamp
+                        })
+                        self.tableView.reloadData()
+                    })
+            }
+        }
     }
     
     //MARK: menu options
@@ -117,14 +147,14 @@ class PhotoBucketTableViewController: UITableViewController {
                                             style: .default,
                                             handler: { (action) in
                                                 self.showAllPhotos = false
-                                                self.showMyPhotos()
+                                                self.viewWillAppear(true)
             })
         } else {
             showPhotoAction = UIAlertAction(title: "Show all photos",
                                             style: .default,
                                             handler: { (action) in
                                                 self.showAllPhotos = true
-                                                self.showEveryPhoto()
+                                                self.viewWillAppear(true)
             })
         }
         
